@@ -1,0 +1,49 @@
+openapi: "3.0.3"
+
+info:
+  title: "Shop Review API"
+  version: "1.0.0"
+
+paths: 
+  "/shops/{shopId}/reviews":
+    post:
+      summary: "Create review"
+      parameters:
+      - name: shopId
+        in: path
+        required: true
+        schema: { type: string }
+      requestBody:
+        description: "Contents of review"
+        required: true
+        content:
+          application/json:
+            schema: 
+              type: object
+              properties:
+                score: { type: integer }
+                comment: { type: string }
+      responses:
+        "201":
+          description: "Success operation"
+          headers:
+            location:
+              description: "New URL of created review"
+              schema: { type: string, format: url }
+        "400":
+          description: "Cliant side error"
+          content: 
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  code: { type: string }
+                  type: { type: string }
+                  massage: { type: string }
+                  errors:
+                    type: array
+                    items: 
+                      type: object
+                      properties:
+                        field: { type: string }
+                        code: { type: string }
